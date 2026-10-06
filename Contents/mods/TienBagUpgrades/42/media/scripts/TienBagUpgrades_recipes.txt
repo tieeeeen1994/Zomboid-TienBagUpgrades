@@ -1,0 +1,192 @@
+/*
+    Tien's Bag Upgrades - recipes for the upgrade items.
+
+    Module and recipe names are those of Dynamic Backpack Upgrades, so saves that used it keep working.
+    Fanny packs are taken with flags[IsEmpty]: that mod's flags[IsEmptyContainer] only writes a log
+    line, so a fanny pack with items in it was crafted and its contents deleted. Hide and Tarp fanny
+    packs are accepted too (what its Hide & Tarp Fanny Packs extension added).
+*/
+
+module DynamicBackpackRecipes
+{
+    imports
+    {
+        Base
+    }
+
+    craftRecipe ClothBagUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:3,
+        inputs
+        {
+            item 1 [Base.Bag_FannyPackBack;Base.Bag_FannyPackFront;Base.Bag_FannyPackBack_Hide;Base.Bag_FannyPackFront_Hide;Base.Bag_FannyPackBack_Tarp;Base.Bag_FannyPackFront_Tarp] mode:destroy flags[IsNotWorn;IsEmpty],
+            item 3 [Base.Thread] mode:destroy,
+            item 15 [Base.RippedSheets] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeCapacityCloth,
+        }
+    }
+
+    craftRecipe DenimBagUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:5,
+        inputs
+        {
+            item 1 [Base.Bag_FannyPackBack;Base.Bag_FannyPackFront;Base.Bag_FannyPackBack_Hide;Base.Bag_FannyPackFront_Hide;Base.Bag_FannyPackBack_Tarp;Base.Bag_FannyPackFront_Tarp;DynamicBackpacks.UpgradeCapacityCloth] mode:destroy flags[IsNotWorn;IsEmpty],
+            item 3 [Base.Thread] mode:destroy,
+            item 5 [Base.RippedSheets] mode:destroy,
+            item 10 [Base.DenimStrips] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeCapacityJean,
+        }
+    }
+
+    craftRecipe LeatherBagUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:7,
+        inputs
+        {
+            item 1 [Base.Bag_FannyPackBack;Base.Bag_FannyPackFront;Base.Bag_FannyPackBack_Hide;Base.Bag_FannyPackFront_Hide;Base.Bag_FannyPackBack_Tarp;Base.Bag_FannyPackFront_Tarp;DynamicBackpacks.UpgradeCapacityCloth;DynamicBackpacks.UpgradeCapacityJean] mode:destroy flags[IsNotWorn;IsEmpty],
+            item 3 [Base.Thread] mode:destroy,
+            item 5 [Base.DenimStrips] mode:destroy,
+            item 10 [Base.LeatherStrips] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeCapacityLeather,
+        }
+    }
+
+    craftRecipe ImproviseMilitaryBagUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:10,
+        inputs
+        {
+            item 1 [DynamicBackpacks.UpgradeCapacityLeather] mode:destroy,
+            item 3 [Base.Thread] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeCapacityMilitary,
+        }
+    }
+
+    craftRecipe MakeClothStrapsUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:3,
+        inputs
+        {
+            item 1 [Base.Belt2] mode:destroy flags[IsNotWorn],
+            item 3 [Base.Thread] mode:destroy,
+            item 10 [Base.RippedSheets] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeWeightReductionCloth,
+        }
+    }
+
+    craftRecipe MakeDenimStrapsUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:5,
+        inputs
+        {
+            item 1 [Base.Belt2;DynamicBackpacks.UpgradeWeightReductionCloth] mode:destroy flags[IsNotWorn],
+            item 3 [Base.Thread] mode:destroy,
+            item 10 [Base.DenimStrips] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeWeightReductionJean,
+        }
+    }
+
+    craftRecipe MakeLeatherStrapsUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:7,
+        inputs
+        {
+            item 1 [Base.Belt2;DynamicBackpacks.UpgradeWeightReductionCloth;DynamicBackpacks.UpgradeWeightReductionJean] mode:destroy flags[IsNotWorn],
+            item 3 [Base.Thread] mode:destroy,
+            item 5 [Base.DenimStrips] mode:destroy,
+            item 10 [Base.LeatherStrips] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeWeightReductionLeather,
+        }
+    }
+
+    craftRecipe ImproviseMilitaryStrapsUpgrade
+    {
+        timedAction = Sew,
+        time = 150,
+        Tags = InHandCraft;canBeDoneInDark,
+        Category = Tailoring,
+        NeedToBeLearn = False,
+        SkillRequired = Tailoring:10,
+        inputs
+        {
+            item 1 [DynamicBackpacks.UpgradeWeightReductionLeather] mode:destroy,
+            item 3 [Base.Thread] mode:destroy,
+            item 1 tags[base:sewingneedle] mode:keep,
+            item 1 tags[base:scissors;base:sharpknife] mode:keep,
+        }
+        outputs
+        {
+            item 1 DynamicBackpacks.UpgradeWeightReductionMilitary,
+        }
+    }
+}

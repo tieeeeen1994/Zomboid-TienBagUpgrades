@@ -1,0 +1,147 @@
+/*
+    Tien's Bag Upgrades - upgrade items.
+
+    Module and item names are those of Dynamic Backpack Upgrades, so upgrade items and upgraded bags
+    from a save that used it keep working.
+*/
+
+module DynamicBackpacks
+{
+
+	/* Dropped models (scripts/make_models.py): a pouch and a padded strap, each with a texture per material. */
+
+	model TienBagUpgrades_PouchCloth_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Pouch,
+		texture = WorldItems/TienBagUpgrades_PouchCloth,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_PouchJean_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Pouch,
+		texture = WorldItems/TienBagUpgrades_PouchJean,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_PouchLeather_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Pouch,
+		texture = WorldItems/TienBagUpgrades_PouchLeather,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_PouchMilitary_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Pouch,
+		texture = WorldItems/TienBagUpgrades_PouchMilitary,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_StrapCloth_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Strap,
+		texture = WorldItems/TienBagUpgrades_StrapCloth,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_StrapJean_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Strap,
+		texture = WorldItems/TienBagUpgrades_StrapJean,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_StrapLeather_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Strap,
+		texture = WorldItems/TienBagUpgrades_StrapLeather,
+		scale = 0.4,
+	}
+
+	model TienBagUpgrades_StrapMilitary_Ground
+	{
+		mesh = WorldItems/TienBagUpgrades_Strap,
+		texture = WorldItems/TienBagUpgrades_StrapMilitary,
+		scale = 0.4,
+	}
+	item UpgradeCapacityCloth
+	{
+		Weight = 1.2,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeCapacityCloth,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_PouchCloth_Ground,
+	}
+
+	item UpgradeCapacityJean
+	{
+		Weight = 1.2,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeCapacityJean,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_PouchJean_Ground,
+	}
+
+	item UpgradeCapacityLeather
+	{
+		Weight = 1.2,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeCapacityLeather,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_PouchLeather_Ground,
+	}
+
+	item UpgradeCapacityMilitary
+	{
+		Weight = 1.2,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeCapacityMilitary,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_PouchMilitary_Ground,
+	}
+
+	item UpgradeWeightReductionCloth
+	{
+		Weight = 0.4,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeWeightReductionCloth,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_StrapCloth_Ground,
+	}
+
+	item UpgradeWeightReductionJean
+	{
+		Weight = 0.4,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeWeightReductionJean,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_StrapJean_Ground,
+	}
+
+	item UpgradeWeightReductionLeather
+	{
+		Weight = 0.4,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeWeightReductionLeather,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_StrapLeather_Ground,
+	}
+
+	item UpgradeWeightReductionMilitary
+	{
+		Weight = 0.4,
+		ItemType = base:normal,
+		DisplayCategory = Material,
+		Icon = UpgradeWeightReductionMilitary,
+		Tooltip = Tooltip_TienBagUpgrades_Material,
+		WorldStaticModel = TienBagUpgrades_StrapMilitary_Ground,
+	}
+}

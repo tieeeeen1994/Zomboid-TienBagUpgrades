@@ -1,0 +1,229 @@
+VERSION = 1,
+
+option DynamicBackpacks.KnivesCanRemove
+{
+	type = boolean,
+	default = false,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_KnivesCanRemove,
+}
+
+option DynamicBackpacks.BaseUpgradeSlots
+{
+	type = integer,
+	default = 1,
+	min = 0,
+	max = 10,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_BaseUpgradeSlots,
+}
+
+option DynamicBackpacks.BackSlotModifier
+{
+	type = integer,
+	default = 1,
+	min = -20,
+	max = 10,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_BackSlotModifier,
+}
+
+option DynamicBackpacks.FannySlotModifier
+{
+	type = integer,
+	default = 0,
+	min = -20,
+	max = 10,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_FannySlotModifier,
+}
+
+option DynamicBackpacks.OtherSlotModifier
+{
+	type = integer,
+	default = 0,
+	min = -20,
+	max = 10,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_OtherSlotModifier,
+}
+
+option DynamicBackpacks.TailoringModifier
+{
+	type = integer,
+	default = 10,
+	min = 0,
+	max = 10,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_TailoringModifier,
+}
+
+option DynamicBackpacks.SewingXP
+{
+	type = integer,
+	default = 0,
+	min = 0,
+	max = 50,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_SewingXP,
+}
+
+option DynamicBackpacks.ClothCapacityPercentage
+{
+	type = double,
+	default = 0.1,
+	min = 0,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_ClothCapacityPercentage,
+}
+
+option DynamicBackpacks.ClothCapacityBonus
+{
+	type = integer,
+	default = 1,
+	min = -100,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_ClothCapacityBonus,
+}
+
+option DynamicBackpacks.ClothReductionPercentage
+{
+	type = double,
+	default = 0.15,
+	min = 0.01,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_ClothReductionPercentage,
+}
+
+option DynamicBackpacks.ClothLootSpawns
+{
+	type = double,
+	default = 1,
+	min = 0,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_ClothLootSpawns,
+}
+
+option DynamicBackpacks.JeanCapacityPercentage
+{
+	type = double,
+	default = 0.2,
+	min = 0,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_JeanCapacityPercentage,
+}
+
+option DynamicBackpacks.JeanCapacityBonus
+{
+	type = integer,
+	default = 1,
+	min = -100,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_JeanCapacityBonus,
+}
+
+option DynamicBackpacks.JeanReductionPercentage
+{
+	type = double,
+	default = 0.25,
+	min = 0.01,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_JeanReductionPercentage,
+}
+
+option DynamicBackpacks.JeanLootSpawns
+{
+	type = double,
+	default = 1,
+	min = 0,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_JeanLootSpawns,
+}
+
+option DynamicBackpacks.LeatherCapacityPercentage
+{
+	type = double,
+	default = 0.25,
+	min = 0,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_LeatherCapacityPercentage,
+}
+
+option DynamicBackpacks.LeatherCapacityBonus
+{
+	type = integer,
+	default = 2,
+	min = -100,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_LeatherCapacityBonus,
+}
+
+option DynamicBackpacks.LeatherReductionPercentage
+{
+	type = double,
+	default = 0.35,
+	min = 0.01,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_LeatherReductionPercentage,
+}
+
+option DynamicBackpacks.LeatherLootSpawns
+{
+	type = double,
+	default = 1,
+	min = 0,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_LeatherLootSpawns,
+}
+
+option DynamicBackpacks.MilitaryCapacityPercentage
+{
+	type = double,
+	default = 0.35,
+	min = 0,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_MilitaryCapacityPercentage,
+}
+
+option DynamicBackpacks.MilitaryCapacityBonus
+{
+	type = integer,
+	default = 2,
+	min = -100,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_MilitaryCapacityBonus,
+}
+
+option DynamicBackpacks.MilitaryReductionPercentage
+{
+	type = double,
+	default = 0.5,
+	min = 0.01,
+	max = 1,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_MilitaryReductionPercentage,
+}
+
+option DynamicBackpacks.MilitaryLootSpawns
+{
+	type = double,
+	default = 1,
+	min = 0,
+	max = 100,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_MilitaryLootSpawns,
+}

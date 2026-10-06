@@ -1,0 +1,8 @@
+{
+    "Tooltip_TienBagUpgrades_NeedNeedleThread": "Requires a sewing needle and thread.",
+    "Tooltip_TienBagUpgrades_NeedCutter": "Requires scissors.",
+    "Tooltip_TienBagUpgrades_NeedCutterOrKnife": "Requires scissors or a sharp knife.",
+    "Tooltip_TienBagUpgrades_NoFreeSlot": "No free upgrade slot (%1 of %2 used).",
+    "Tooltip_TienBagUpgrades_TooFull": "The bag holds %1, but without this upgrade it would only hold %2.",
+    "Tooltip_TienBagUpgrades_Material": "Sew onto a bag with a needle and thread."
+}

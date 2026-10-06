@@ -1,0 +1,8 @@
+{
+    "IGUI_TienBagUpgrades_Slots": "Upgrade slots: %1 / %2",
+    "IGUI_TienBagUpgrades_Capacity": "Upgrades: +%1 capacity",
+    "IGUI_TienBagUpgrades_CapacityCapped": "Upgrades: +%1 capacity (capped at %2)",
+    "IGUI_TienBagUpgrades_WeightReduction": "Upgrades: +%1%% weight reduction",
+    "IGUI_TienBagUpgrades_EffectCapacity": "Bag capacity +%1%%",
+    "IGUI_TienBagUpgrades_EffectReduction": "Weight reduction: removes %1%% of the weight the bag does not already reduce"
+}

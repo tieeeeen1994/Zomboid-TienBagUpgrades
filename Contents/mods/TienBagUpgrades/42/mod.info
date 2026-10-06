@@ -1,0 +1,10 @@
+name=Tien's Bag Upgrades
+id=TienBagUpgrades
+description=Sew capacity upgrades and weight-reduction straps onto your bags. A derivative of Dynamic Backpack Upgrades by Dr. Lalaoz, Harrod200 and Lenniitsch (https://steamcommunity.com/sharedfiles/filedetails/?id=2996978365): its idea, items, recipes, settings and loot tables, with new code, models and art. It replaces that mod in existing saves: same items, same sandbox settings, bags you already upgraded keep their upgrades. Bag stats are set once by the server and saved with the bag, so nothing re-checks your inventory while you play and stats never revert.
+author=Tien
+modversion=0.1.0
+poster=poster.png
+icon=icon.png
+category=Items
+versionMin=42.20.0
+incompatible=LazoloDynamicBackpackUpgrades,DynamicBackpackUpgradesFannyPacks
