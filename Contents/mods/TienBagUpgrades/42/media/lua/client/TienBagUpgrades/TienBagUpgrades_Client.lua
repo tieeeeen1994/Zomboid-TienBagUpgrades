@@ -2,7 +2,8 @@
     Tien's Bag Upgrades - context menus and the server's stats messages.
 
     Right-click a bag: Add Upgrade (one entry per upgrade type the player carries) and Remove Upgrade.
-    Right-click an upgrade item: Sew onto Bag (bags in the main inventory, worn ones included).
+    Right-click an upgrade item: Sew onto Bag (every container item in the inventory, worn ones and
+    ones inside other bags included).
     The options queue transfers into the main inventory for whatever is elsewhere, then the timed
     action, which makes the change on the server.
 
@@ -143,10 +144,12 @@ end
 local function addUpgradeItemOptions(player, context, upgrade)
     local inventory = player:getInventory()
     local bags = {}
-    local items = inventory:getItems()
+    -- Containers anywhere in the inventory, inside other bags too; onAddUpgrade brings them out first.
+    local items = inventory:getAllEvalRecurse(function(item)
+        return TBU.isBag(item) and TBU.maxSlots(item, player) > 0
+    end, ArrayList.new())
     for i = 0, items:size() - 1 do
-        local item = items:get(i)
-        if TBU.isBag(item) and TBU.maxSlots(item, player) > 0 then bags[#bags + 1] = item end
+        bags[#bags + 1] = items:get(i)
     end
     if #bags == 0 then return end
 

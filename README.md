@@ -32,11 +32,12 @@ Hide & Tarp Fanny Packs extension, now built in) before enabling this mod.
   sets some (off by default); removing takes
   scissors (or a sharp knife, if the sandbox allows it).
 - **Right-click an upgrade item**: *Sew onto Bag* lists the bags in your inventory with their free
-  slots.
+  slots, bags inside other bags included.
 - **Bag upgrades** (cloth, denim, leather, military) add a share of the bag's original capacity
   plus a flat amount. **Straps** remove a share of the weight the bag does not already reduce.
-- **Slots**: every bag has the base slots, plus a modifier for back bags, fanny packs and other
-  bags, plus one slot every few Tailoring levels.
+- **Slots**: every container item counts as a bag (backpacks, fanny packs, handbags, toolboxes,
+  wallets, keyrings...). Each has the base slots, plus a modifier for back bags, fanny packs and
+  other bags, plus one slot every few Tailoring levels.
 - **Crafting**: the upgrade items are sewn from fanny packs (regular, Hide and Tarp), belts,
   ripped sheets, denim and leather strips, in the Tailoring category. A fanny pack with anything in
   it is no longer accepted (Dynamic Backpack Upgrades deleted its contents).
@@ -53,6 +54,8 @@ Hide & Tarp Fanny Packs extension, now built in) before enabling this mod.
   longer writes data onto it, and there is no "Fix Upgrades" menu because stats no longer drift.
 - In multiplayer the server checks everything again before it changes anything, and sends the new
   stats to your client straight away.
+- The plain Key Ring takes upgrades too (Dynamic Backpack Upgrades banned that one item type; its
+  decorated variants were already allowed).
 - Loot multipliers follow the sandbox settings (they were read before the settings existed).
 - Sewing uses the vanilla sewing animation and sound and takes as long as patching clothing
   (faster with Tailoring).

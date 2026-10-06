@@ -84,10 +84,11 @@ function TBU.upgradeName(upgradeType)
     return script and script:getDisplayName() or upgradeType
 end
 
+-- Every container item takes upgrades (keyrings, wallets and toolboxes too); how many depends on where
+-- it is worn (TBU.baseSlots). Dynamic Backpack Upgrades banned only the plain KeyRing type (an exact
+-- getType() match, so its 28 decorated KeyRing_* variants were allowed); this mod bans none.
 function TBU.isBag(item)
-    if not item or not item:IsInventoryContainer() then return false end
-    if item:hasTag(ItemTag.KEY_RING) then return false end
-    return not string.find(item:getType(), "KeyRing", 1, true)
+    return item ~= nil and item:IsInventoryContainer()
 end
 
 -- The bag's upgrade list, or nil when it has none. Never creates modData.
