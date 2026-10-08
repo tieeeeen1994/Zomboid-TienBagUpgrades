@@ -2,6 +2,8 @@
     Tien's Bag Upgrades - extra lines in item tooltips.
 
     Bags: upgrade slots used / available, and what the upgrades add to capacity and weight reduction.
+    When vanilla's Capacity row shows less than the bag holds (it takes the bag's own weight off; see
+    TienBagUpgrades_Shared.lua), the real capacity too.
     Upgrade items: what they do with the current sandbox settings.
 
     The lines go under the finished tooltip, after the whole render chain (vanilla's and every other
@@ -33,8 +35,11 @@ local function fmtInt(n)
     return string.format("%d", n)
 end
 
-local function bagLines(bag, used, max, capacity, reduction)
+local function bagLines(bag, used, max, capacity, reduction, shown, holds)
     local lines = {}
+    if holds > shown then
+        lines[#lines + 1] = getText("IGUI_TienBagUpgrades_RealCapacity", fmtInt(holds))
+    end
     if max > 0 or used > 0 then
         lines[#lines + 1] = getText("IGUI_TienBagUpgrades_Slots", fmtInt(used), fmtInt(math.max(max, used)))
     end
@@ -59,14 +64,19 @@ end
 local function linesFor(item)
     if not item or not instanceof(item, "InventoryItem") then return nil end
     if TBU.isBag(item) then
-        local used, max = TBU.countUpgrades(item), TBU.maxSlots(item, getPlayer())
-        local capacity, reduction = item:getCapacity(), item:getWeightReduction()
+        local player = getPlayer()
+        local used, max = TBU.countUpgrades(item), TBU.maxSlots(item, player)
+        local capacity, reduction = TBU.capacity(item), item:getWeightReduction()
+        -- Vanilla's Capacity row takes the bag's weight off a capacity the engine does not enforce.
+        local shown, holds = item:getEffectiveCapacity(player), item:getInventory():getEffectiveCapacity(player)
         if cache.item == item and cache.used == used and cache.max == max
-            and cache.capacity == capacity and cache.reduction == reduction then
+            and cache.capacity == capacity and cache.reduction == reduction
+            and cache.shown == shown and cache.holds == holds then
             return cache.lines
         end
         cache.item, cache.used, cache.max, cache.capacity, cache.reduction = item, used, max, capacity, reduction
-        cache.lines = bagLines(item, used, max, capacity, reduction)
+        cache.shown, cache.holds = shown, holds
+        cache.lines = bagLines(item, used, max, capacity, reduction, shown, holds)
         return cache.lines
     end
     local info = TBU.upgradeInfo(item)

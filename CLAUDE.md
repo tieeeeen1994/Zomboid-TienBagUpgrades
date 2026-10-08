@@ -36,7 +36,7 @@ folder; its Hide & Tarp Fanny Packs extension (3801558401) is folded in. Engine 
 ## How it works
 
 - `shared/TienBagUpgrades/TienBagUpgrades_Shared.lua`: rules (slots, formula, clamp to
-  `min(50, floor(50 - bag weight))`, remove check, tools), `TBU.apply` (server / SP: set stats, send
+  50 (the inner container's cap; the item's "50 minus bag weight" is display only, see the file header), remove check, tools), `TBU.apply` (server / SP: set stats, send
   `bagStats {id, capacity, weightReduction, baseCapacity, baseWeightReduction, upgrades}` to the owner).
 - `shared/TimedActions/TienBag{Add,Remove}UpgradeAction.lua`: built like vanilla `ISRepairClothing`
   (client refreshes item objects by ID in `start`, server re-checks in `complete` and returns false to

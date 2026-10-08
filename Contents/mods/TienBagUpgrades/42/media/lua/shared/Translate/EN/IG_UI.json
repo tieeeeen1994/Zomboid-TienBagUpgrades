@@ -1,4 +1,5 @@
 {
+    "IGUI_TienBagUpgrades_RealCapacity": "Real capacity: %1",
     "IGUI_TienBagUpgrades_Slots": "Upgrade slots: %1 / %2",
     "IGUI_TienBagUpgrades_Capacity": "Upgrades: +%1 capacity",
     "IGUI_TienBagUpgrades_CapacityCapped": "Upgrades: +%1 capacity (capped at %2)",

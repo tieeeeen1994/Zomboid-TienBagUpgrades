@@ -44,8 +44,9 @@ Hide & Tarp Fanny Packs extension, now built in) before enabling this mod.
 - **Dropped items** have their own models: a padded pouch for each bag upgrade and a padded shoulder
   strap with its buckle for each straps upgrade, in the material's colours.
 - **Tooltips** show a bag's slots and what its upgrades add, and what an upgrade item does with the
-  current settings. The engine caps a bag at 50 capacity minus its own weight; the tooltip says so
-  when an upgrade goes past it.
+  current settings. A bag holds up to 50; the tooltip says so when an upgrade goes past it. The
+  game's own Capacity line takes the bag's weight off that (a Large Framepack shows 46) without
+  enforcing it, so the tooltip also gives the real capacity when the two differ.
 
 ## What changed from Dynamic Backpack Upgrades
 

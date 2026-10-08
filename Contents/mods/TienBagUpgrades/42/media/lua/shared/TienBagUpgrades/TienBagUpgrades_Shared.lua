@@ -13,8 +13,14 @@
     actions' complete(). Only the live item sync (SyncItemFieldsPacket) leaves them out, so the
     server tells the owner's client the new values itself (TienBagUpgrades.apply, "bagStats").
 
-    The engine caps a bag's capacity at 50 and at 50 minus the bag's own weight
-    (InventoryContainer.getCapacity); the stats are clamped to that before they are set.
+    A bag can hold up to 50 (42.21). Two capacities exist: the bag's inner ItemContainer, capped at
+    50 for any item's container (ItemContainer.getCapacity), and the item's own
+    InventoryContainer.getCapacity / getEffectiveCapacity, which also caps at 50 minus the bag's
+    script weight (the actualWeight field, not the contents). Only the inner one is enforced:
+    ItemContainer.hasRoomFor (drags, transfers, the server's TransactionManager) and the loot window's
+    weight bar read it. The item's lower number only shows in vanilla's tooltip "Capacity" row.
+    InventoryContainer.setCapacity stores the value in both and just logs a warning past 50 minus the
+    weight, so the stats are clamped to 50 and read back from the inner container (TBU.capacity).
 ]]
 
 TienBagUpgrades = TienBagUpgrades or {}
@@ -134,17 +140,25 @@ function TBU.hasFreeSlot(bag, player)
     return TBU.countUpgrades(bag) < TBU.maxSlots(bag, player)
 end
 
+TBU.MAX_CAPACITY = 50
+
+-- The capacity the engine enforces: the inner container's, not the item's (which takes the bag's
+-- weight off; see the header).
+function TBU.capacity(bag)
+    return bag:getInventory():getCapacity()
+end
+
 -- The bag's stats before upgrades.
 function TBU.baseStats(bag)
     local md = bag:hasModData() and bag:getModData() or nil
-    local capacity = md and tonumber(md.LCapacity) or bag:getCapacity()
+    local capacity = md and tonumber(md.LCapacity) or TBU.capacity(bag)
     local reduction = md and tonumber(md.LWeightReduction) or bag:getWeightReduction()
     return capacity, reduction
 end
 
--- Largest capacity the engine lets this bag have.
+-- Largest capacity the engine lets a bag have.
 function TBU.capacityCap(bag)
-    return math.min(50, math.floor(50 - bag:getActualWeight()))
+    return TBU.MAX_CAPACITY
 end
 
 -- Same formula as Dynamic Backpack Upgrades, so its bags keep their numbers: each capacity upgrade
@@ -254,7 +268,7 @@ end
 function TBU.ensureBase(bag)
     local md = bag:getModData()
     if type(md.LUpgrades) ~= "table" then md.LUpgrades = {} end
-    if md.LCapacity == nil then md.LCapacity = bag:getCapacity() end
+    if md.LCapacity == nil then md.LCapacity = TBU.capacity(bag) end
     if md.LWeightReduction == nil then md.LWeightReduction = bag:getWeightReduction() end
     -- Dynamic Backpack Upgrades skips its own setup on a bag marked LDynamicBackpacksInit and then
     -- reads these two (its tooltip compares LMaxUpgrades with 0), so a bag first upgraded here must
@@ -271,7 +285,7 @@ function TBU.setStats(bag, capacity, reduction)
     bag:setCapacity(capacity)
     bag:setWeightReduction(reduction)
     local md = bag:getModData()
-    md.LComputedCapacity = bag:getCapacity()
+    md.LComputedCapacity = TBU.capacity(bag)
     md.LComputedWeightReduction = bag:getWeightReduction()
 end
 
@@ -299,7 +313,7 @@ end
 function TBU.refresh(bag, player)
     if not TBU.getUpgrades(bag) then return false end
     local capacity, reduction = TBU.targetStats(bag)
-    if bag:getCapacity() == capacity and bag:getWeightReduction() == reduction then return false end
+    if TBU.capacity(bag) == capacity and bag:getWeightReduction() == reduction then return false end
     TBU.apply(bag, player)
     return true
 end
