@@ -59,4 +59,4 @@ description=[/list]
 description=
 description=Written anew for this mod: all of the Lua code, the dropped item models (a pouch and a padded strap, with their textures), the item icons and mod icon, rendered from those models, and the poster, which also uses the game's ALICE pack, thread and needle icons. No art from Dynamic Backpack Upgrades is used. The Hide and Tarp fanny pack recipe inputs come from Dynamic Backpack Upgrades - Hide & Tarp Fanny Packs, Tien's own extension of the original.
 tags=Build 42;Balance;Items;Multiplayer
-visibility=unlisted
+visibility=public
