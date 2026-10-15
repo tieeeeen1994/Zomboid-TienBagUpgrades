@@ -44,7 +44,8 @@ Hide & Tarp Fanny Packs extension, now built in) before enabling this mod.
 - **Dropped items** have their own models: a padded pouch for each bag upgrade and a padded shoulder
   strap with its buckle for each straps upgrade, in the material's colours.
 - **Tooltips** show a bag's slots and what its upgrades add, and what an upgrade item does with the
-  current settings. A bag holds up to 50; the tooltip says so when an upgrade goes past it. The
+  current settings. A bag holds up to 50 (unless Cap Capacity Limit is turned off on a server
+  with a Java mod that lifts the game's limit); the tooltip says so when an upgrade goes past it. The
   game's own Capacity line takes the bag's weight off that (a Large Framepack shows 46) without
   enforcing it, so the tooltip also gives the real capacity when the two differ.
 
@@ -69,7 +70,8 @@ Same names and defaults as Dynamic Backpack Upgrades: Knives Remove Upgrades (of
 Slots (1), Back Bag / Fanny Pack / Other Bag Slot Modifiers (+1 / 0 / 0), Tailoring Levels per
 Extra Slot (10), and for each material a capacity share, a flat capacity bonus, a weight reduction
 share and a loot multiplier. New here: Tailoring XP for Sewing On an Upgrade (0, off by default;
-patching clothing gives 2).
+patching clothing gives 2) and Cap Capacity Limit (on: upgrades stop at 50, the game's limit; turn it
+off only with a Java mod that lets bags hold more than 50).
 
 ## Credits
 

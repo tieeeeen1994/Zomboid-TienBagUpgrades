@@ -20,7 +20,13 @@
     ItemContainer.hasRoomFor (drags, transfers, the server's TransactionManager) and the loot window's
     weight bar read it. The item's lower number only shows in vanilla's tooltip "Capacity" row.
     InventoryContainer.setCapacity stores the value in both and just logs a warning past 50 minus the
-    weight, so the stats are clamped to 50 and read back from the inner container (TBU.capacity).
+    weight, so the stats are clamped and read back from the inner container (TBU.capacity).
+
+    Sandbox CapCapacity (default on) turns the clamp off, for servers with a Java mod that lifts the 50:
+    the full upgraded capacity is set and the engine keeps what it allows. On an unmodded game the inner
+    container stores the larger number (ItemContainer.setCapacity only logs a warning) and getCapacity
+    still returns 50. That limit is measured once on a scratch bag (TBU.engineCapacityCap), so
+    TBU.refresh does not take the difference for a bag out of step and re-apply it.
 ]]
 
 TienBagUpgrades = TienBagUpgrades or {}
@@ -52,7 +58,7 @@ TBU.UPGRADE_ORDER = {
 local DEFAULTS = {
     KnivesCanRemove = false,
     BaseUpgradeSlots = 1, BackSlotModifier = 1, FannySlotModifier = 0, OtherSlotModifier = 0, TailoringModifier = 10,
-    SewingXP = 0,
+    SewingXP = 0, CapCapacity = true,
     ClothCapacityPercentage = 0.1, ClothCapacityBonus = 1, ClothReductionPercentage = 0.15, ClothLootSpawns = 1,
     JeanCapacityPercentage = 0.2, JeanCapacityBonus = 1, JeanReductionPercentage = 0.25, JeanLootSpawns = 1,
     LeatherCapacityPercentage = 0.25, LeatherCapacityBonus = 2, LeatherReductionPercentage = 0.35, LeatherLootSpawns = 1,
@@ -156,9 +162,33 @@ function TBU.baseStats(bag)
     return capacity, reduction
 end
 
--- Largest capacity the engine lets a bag have.
+-- Largest capacity upgrades may give a bag: the engine's 50, or nil (no limit of ours) when
+-- CapCapacity is off, and the engine, or a Java mod, decides.
 function TBU.capacityCap(bag)
+    if TBU.opt("CapCapacity") == false then return nil end
     return TBU.MAX_CAPACITY
+end
+
+local function capCapacity(bag, capacity)
+    local cap = TBU.capacityCap(bag)
+    if cap and capacity > cap then return cap end
+    return capacity
+end
+
+-- Largest capacity the engine keeps for a bag's inner container: 50 in 42.21, more with a Java mod
+-- that lifts it. Measured once on a scratch bag that never enters the world.
+local engineCap = nil
+function TBU.engineCapacityCap()
+    if engineCap then return engineCap end
+    local probe = instanceItem("Base.Bag_Schoolbag")
+    local inventory = probe and probe.getInventory and probe:getInventory()
+    if inventory then
+        inventory:setCapacity(1000000)
+        engineCap = inventory:getCapacity()
+    else
+        engineCap = TBU.MAX_CAPACITY
+    end
+    return engineCap
 end
 
 -- Same formula as Dynamic Backpack Upgrades, so its bags keep their numbers: each capacity upgrade
@@ -188,7 +218,7 @@ end
 function TBU.targetStats(bag)
     local baseCapacity, baseReduction = TBU.baseStats(bag)
     local capacity, reduction = TBU.computeStats(baseCapacity, baseReduction, TBU.getUpgrades(bag) or {})
-    return math.min(capacity, TBU.capacityCap(bag)), reduction, capacity
+    return capCapacity(bag, capacity), reduction, capacity
 end
 
 -- Can this upgrade come off? A capacity upgrade cannot while the bag holds more than it would hold
@@ -206,7 +236,7 @@ function TBU.removeCheck(bag, upgradeType)
     end
     local baseCapacity, baseReduction = TBU.baseStats(bag)
     local capacity = TBU.computeStats(baseCapacity, baseReduction, remaining)
-    capacity = math.min(capacity, TBU.capacityCap(bag))
+    capacity = capCapacity(bag, capacity)
     local weight = bag:getContentsWeight()
     return weight <= capacity + 0.001, weight, capacity
 end
@@ -313,6 +343,8 @@ end
 function TBU.refresh(bag, player)
     if not TBU.getUpgrades(bag) then return false end
     local capacity, reduction = TBU.targetStats(bag)
+    -- The engine keeps no more than its own limit, whatever was set (see the header).
+    capacity = math.min(capacity, TBU.engineCapacityCap())
     if TBU.capacity(bag) == capacity and bag:getWeightReduction() == reduction then return false end
     TBU.apply(bag, player)
     return true
@@ -320,7 +352,7 @@ end
 
 -- The settings the stats depend on, to notice a change.
 function TBU.statsSignature()
-    local parts = {}
+    local parts = { tostring(TBU.opt("CapCapacity")) }
     for _, material in ipairs({ "Cloth", "Jean", "Leather", "Military" }) do
         parts[#parts + 1] = tostring(TBU.opt(material .. "CapacityPercentage"))
         parts[#parts + 1] = tostring(TBU.opt(material .. "CapacityBonus"))

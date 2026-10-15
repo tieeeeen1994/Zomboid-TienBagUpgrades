@@ -12,6 +12,7 @@ folder; its Hide & Tarp Fanny Packs extension (3801558401) is folded in. Engine 
   and recipe names, sandbox options `DynamicBackpacks.*` (names, types, defaults, min/max). Renaming an
   option resets it on existing servers. `DynamicBackpacks.SewingXP` is ours alone (the old mod has no such option); on a
   server coming from the old mod it starts at its default, 0.
+  `DynamicBackpacks.CapCapacity` is ours too (default on).
 - Bag modData keys: `LUpgrades` (list of short item types), `LCapacity` / `LWeightReduction` (stats before
   upgrades), `LDynamicBackpacksInit`, and for going back to the old mod `LComputedCapacity` / `LComputedWeightReduction`,
   `LMaxUpgrades` (base + location modifier, no Tailoring) and `LFixState`: the old mod skips its own setup on a bag
@@ -35,8 +36,11 @@ folder; its Hide & Tarp Fanny Packs extension (3801558401) is folded in. Engine 
 
 ## How it works
 
-- `shared/TienBagUpgrades/TienBagUpgrades_Shared.lua`: rules (slots, formula, clamp to
-  50 (the inner container's cap; the item's "50 minus bag weight" is display only, see the file header), remove check, tools), `TBU.apply` (server / SP: set stats, send
+- `shared/TienBagUpgrades/TienBagUpgrades_Shared.lua`: rules (slots, formula, clamp to 50 (the
+  inner container's engine cap) unless sandbox `CapCapacity` is off (for Java mods that lift it; the full number is
+  then set and the engine keeps what it allows; the item's "50 minus bag weight" is display only, see the file header), remove check, tools),
+  `TBU.engineCapacityCap` (the engine's real cap, measured once on a scratch `Bag_Schoolbag`: `refresh` compares
+  against min(target, it), so a cap above the engine's does not re-apply bags every check), `TBU.apply` (server / SP: set stats, send
   `bagStats {id, capacity, weightReduction, baseCapacity, baseWeightReduction, upgrades}` to the owner).
 - `shared/TimedActions/TienBag{Add,Remove}UpgradeAction.lua`: built like vanilla `ISRepairClothing`
   (client refreshes item objects by ID in `start`, server re-checks in `complete` and returns false to

@@ -68,6 +68,14 @@ option DynamicBackpacks.SewingXP
 	translation = DynamicBackpacks_SewingXP,
 }
 
+option DynamicBackpacks.CapCapacity
+{
+	type = boolean,
+	default = true,
+	page = DynamicBackpacks,
+	translation = DynamicBackpacks_CapCapacity,
+}
+
 option DynamicBackpacks.ClothCapacityPercentage
 {
 	type = double,

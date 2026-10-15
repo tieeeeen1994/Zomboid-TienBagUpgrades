@@ -39,3 +39,6 @@ Multiplayer (`TienGiveItemMP/scripts/mptest.sh`):
     move it between containers, equip and unequip it, wait a few in-game hours and hover it. Capacity
     and WR never change, and the server log has no "Attempting to set capacity" lines after the first.
 11. Set a loot multiplier to 0 in the server's sandbox file: no upgrades in army surplus stores.
+12. Cap Capacity Limit off on an unmodded game: an upgraded bag past 50 still holds 50, the tooltip says
+    "capped at 50", and the server log shows no "re-applied" line for it after the first check. With a Java mod
+    that lifts the 50: the bag gets its full upgraded capacity. On (default): stops at 50 as before.

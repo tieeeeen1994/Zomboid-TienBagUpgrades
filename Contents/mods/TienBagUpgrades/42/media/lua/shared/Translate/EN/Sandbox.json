@@ -14,6 +14,8 @@
     "Sandbox_DynamicBackpacks_TailoringModifier_tooltip": "Every this many Tailoring levels give every bag one more upgrade slot.\\n0 = Tailoring gives no extra slots.",
     "Sandbox_DynamicBackpacks_SewingXP": "Tailoring XP for Sewing On an Upgrade",
     "Sandbox_DynamicBackpacks_SewingXP_tooltip": "Tailoring XP given each time an upgrade is sewn onto a bag. Patching clothing gives 2.\\nCutting an upgrade off gives none: it always gives the item back, so it could be sewn on again for more.",
+    "Sandbox_DynamicBackpacks_CapCapacity": "Cap Capacity Limit",
+    "Sandbox_DynamicBackpacks_CapCapacity_tooltip": "On: upgrades stop at 50, the most the game lets a bag hold.\\nOff: bags get their full upgraded capacity and the game decides the limit: still 50 on an unmodded game, more with a Java mod that lifts it.",
     "Sandbox_DynamicBackpacks_ClothCapacityPercentage": "Capacity Bonus Share: Cloth",
     "Sandbox_DynamicBackpacks_ClothCapacityPercentage_tooltip": "Share of the bag's original capacity a cloth bag upgrade adds (0.1 = 10%%), rounded down.",
     "Sandbox_DynamicBackpacks_ClothCapacityBonus": "Capacity Bonus Amount: Cloth",
