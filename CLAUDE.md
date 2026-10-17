@@ -59,6 +59,10 @@ folder; its Hide & Tarp Fanny Packs extension (3801558401) is folded in. Engine 
   `OnInitGlobalModData` rewrites the entries and calls `IsoWorld.parseDistributions()` (Parse +
   InitSandboxLootSettings) only when a loot multiplier differs. `EveryTenMinutes` re-applies the bags
   each player carries once per stats-settings signature (and once per player after a restart).
+  It also wraps `ISClothingExtraAction.createItemNew` (fanny pack Wear in front / at back = a new item of the
+  `ClothingItemExtra` type, modData copied, capacity and WR not): the new item's script stats become the base and
+  `TBU.apply` runs before `complete` sends it. Before that fix a swapped fanny pack showed 4/4 upgrades at 1 / 85
+  ("+0 capacity (capped at 1)") until the next server restart's check.
 
 ## Art
 

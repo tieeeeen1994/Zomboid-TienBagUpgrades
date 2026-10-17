@@ -13,11 +13,21 @@
     game minutes; nothing is walked while the settings stay the same). The first check after the
     server starts also brings bags left out of step by Dynamic Backpack Upgrades back in line. Bags
     lying in the world are re-applied the next time an upgrade goes on or comes off.
+
+    Front / back swaps: "Wear in front" / "Wear at back" on a fanny pack (vanilla ISClothingExtraAction,
+    complete() on the server / single player) replaces the bag with a new item of its ClothingItemExtra
+    type. createItemNew copies contents, name, condition and modData (so the upgrade list), but not
+    capacity or weight reduction: the new bag had the script's stats (fanny pack 1 / 85) while its
+    tooltip counted the old upgrades, and the ten-minute check had already passed that player. The
+    new item's own stats become the base and the upgrades are applied before complete() sends it
+    (the item bytes carry both values). Vanilla's six fanny packs are the only containers with a
+    ClothingItemExtra in 42.21; modded ones go the same way.
 ]]
 
 if isClient() then return end
 
 require "Items/ProceduralDistributions"
+require "TimedActions/ISClothingExtraAction"
 require "TienBagUpgrades/TienBagUpgrades_Shared"
 
 local TBU = TienBagUpgrades
@@ -186,3 +196,25 @@ local function everyTenMinutes()
 end
 
 Events.EveryTenMinutes.Add(everyTenMinutes)
+
+---------------------------------------------------------------------------------------------------
+-- Front / back swaps keep the upgrades' stats
+---------------------------------------------------------------------------------------------------
+
+local originalCreateItemNew = ISClothingExtraAction.createItemNew
+
+function ISClothingExtraAction:createItemNew(item, newItem)
+    -- newItem is fresh from its script: its stats are the base for its type.
+    local isBag = TBU.isBag(newItem)
+    local baseCapacity, baseReduction
+    if isBag then baseCapacity, baseReduction = TBU.capacity(newItem), newItem:getWeightReduction() end
+    local result = originalCreateItemNew(self, item, newItem)
+    if isBag and result == newItem and TBU.getUpgrades(newItem) then
+        local md = newItem:getModData()
+        md.LCapacity = baseCapacity
+        md.LWeightReduction = baseReduction
+        -- No bagStats: complete() sends the whole item right after this.
+        TBU.apply(newItem, nil)
+    end
+    return result
+end
