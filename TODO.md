@@ -29,7 +29,8 @@ Single player (`-debug` for spawning items):
    them, nothing overlapping, in both orders.
 6. Craft a Cloth Bag Upgrade with a fanny pack holding an item: the full pack is not accepted.
    Hide and Tarp fanny packs are accepted; recipe names show translated.
-7. Change ClothCapacityPercentage mid-game: within ten in-game minutes the carried cloth-upgraded bags change.
+7. Change ClothCapacityPercentage, then restart (reload the save): right after joining, the carried
+   cloth-upgraded bags have the new stats. Mid-game they only change at the next restart.
 
 Multiplayer (`TienGiveItemMP/scripts/mptest.sh`):
 8. Steps 1 and 3 on a client: the client's copy shows the new stats right after the action; the

@@ -113,8 +113,3 @@ function ISToolTipInv:render()
     end
     tooltip:setHeight(self.height)
 end
-
--- Sandbox values can change during a game; rebuild the lines now and then.
-Events.EveryTenMinutes.Add(function()
-    cache.item = nil
-end)

@@ -8,7 +8,8 @@
     action, which makes the change on the server.
 
     Menus only read the bags; nothing here writes their modData or stats except "bagStats", the
-    server's answer after it changed a bag this player owns.
+    server's answer after it changed a bag this player owns. After joining, each local player asks
+    the server once to bring its carried bags in line with the settings ("checkBags").
 ]]
 
 require "TienBagUpgrades/TienBagUpgrades_Shared"
@@ -215,9 +216,62 @@ local function onBagStats(args)
     end
 end
 
+---------------------------------------------------------------------------------------------------
+-- Joining: the server checks the bags a player carries once per run, when asked
+---------------------------------------------------------------------------------------------------
+
+-- A command sent right after joining can be dropped by the server (no player on the connection
+-- yet), so a client asks again until the answer comes; single player has no answer and drops
+-- nothing, so it asks once.
+local ASK_EVERY_MS = 3000
+local MAX_ASKS = 10
+local asking = {} -- playerNum -> { player, nextMs, asks }
+local tickAdded = false
+
+local function onTickAsk()
+    local now = getTimestampMs()
+    local any = false
+    for playerNum, entry in pairs(asking) do
+        local player = entry.player
+        if getSpecificPlayer(playerNum) ~= player or entry.asks >= MAX_ASKS then
+            asking[playerNum] = nil
+        else
+            any = true
+            if now >= entry.nextMs and (not isClient() or player:getOnlineID() >= 0) then
+                sendClientCommand(player, TBU.MODULE, TBU.CMD_CHECK_BAGS, {})
+                entry.asks = entry.asks + 1
+                entry.nextMs = now + ASK_EVERY_MS
+                if not isClient() then asking[playerNum] = nil end
+            end
+        end
+    end
+    if not any then
+        Events.OnTick.Remove(onTickAsk)
+        tickAdded = false
+    end
+end
+
+local function onCreatePlayer(playerNum, player)
+    if not player then return end
+    asking[playerNum] = { player = player, nextMs = 0, asks = 0 }
+    if not tickAdded then
+        Events.OnTick.Add(onTickAsk)
+        tickAdded = true
+    end
+end
+
+local function onBagsChecked(args)
+    for playerNum, entry in pairs(asking) do
+        if entry.player:getUsername() == args.username then asking[playerNum] = nil end
+    end
+end
+
+Events.OnCreatePlayer.Add(onCreatePlayer)
+
 local function onServerCommand(module, command, args)
     if module ~= TBU.MODULE or type(args) ~= "table" then return end
-    if command == TBU.CMD_BAG_STATS then onBagStats(args) end
+    if command == TBU.CMD_BAG_STATS then onBagStats(args)
+    elseif command == TBU.CMD_BAGS_CHECKED then onBagsChecked(args) end
 end
 
 Events.OnServerCommand.Add(onServerCommand)

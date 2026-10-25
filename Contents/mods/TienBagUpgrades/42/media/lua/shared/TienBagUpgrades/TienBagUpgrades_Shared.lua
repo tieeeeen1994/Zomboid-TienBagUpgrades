@@ -35,6 +35,8 @@ local TBU = TienBagUpgrades
 TBU.MODULE = "TienBagUpgrades"
 TBU.ITEM_MODULE = "DynamicBackpacks"
 TBU.CMD_BAG_STATS = "bagStats"
+TBU.CMD_CHECK_BAGS = "checkBags"     -- client, once it has joined: bring my bags in line
+TBU.CMD_BAGS_CHECKED = "bagsChecked" -- server's answer, so the client stops asking
 
 -- Upgrade item type -> what it changes and which sandbox options set its strength.
 TBU.UPGRADES = {
@@ -348,15 +350,4 @@ function TBU.refresh(bag, player)
     if TBU.capacity(bag) == capacity and bag:getWeightReduction() == reduction then return false end
     TBU.apply(bag, player)
     return true
-end
-
--- The settings the stats depend on, to notice a change.
-function TBU.statsSignature()
-    local parts = { tostring(TBU.opt("CapCapacity")) }
-    for _, material in ipairs({ "Cloth", "Jean", "Leather", "Military" }) do
-        parts[#parts + 1] = tostring(TBU.opt(material .. "CapacityPercentage"))
-        parts[#parts + 1] = tostring(TBU.opt(material .. "CapacityBonus"))
-        parts[#parts + 1] = tostring(TBU.opt(material .. "ReductionPercentage"))
-    end
-    return table.concat(parts, ";")
 end

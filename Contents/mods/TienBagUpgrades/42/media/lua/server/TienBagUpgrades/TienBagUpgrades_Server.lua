@@ -8,17 +8,18 @@
     OnPreDistributionMerge with the values known then and checked again at OnInitGlobalModData (after
     the load); if a multiplier changed, the entries are rewritten and the lists parsed again.
 
-    Settings: a bag's stats are worked out when an upgrade goes on or comes off. When the upgrade
-    strength options change, the bags carried by each player are re-applied once (checked every ten
-    game minutes; nothing is walked while the settings stay the same). The first check after the
-    server starts also brings bags left out of step by Dynamic Backpack Upgrades back in line. Bags
-    lying in the world are re-applied the next time an upgrade goes on or comes off.
+    Settings: a bag's stats are worked out when an upgrade goes on or comes off. Nothing polls the
+    upgrade strength options: the bags each player carries are re-applied once per server run, when
+    that player's client asks after joining (checkBags; single player asks too), so a change reaches
+    carried bags after a restart. That check also brings bags left out of step by Dynamic Backpack
+    Upgrades back in line. Bags lying in the world are re-applied the next time an upgrade goes on
+    or comes off.
 
     Front / back swaps: "Wear in front" / "Wear at back" on a fanny pack (vanilla ISClothingExtraAction,
     complete() on the server / single player) replaces the bag with a new item of its ClothingItemExtra
     type. createItemNew copies contents, name, condition and modData (so the upgrade list), but not
     capacity or weight reduction: the new bag had the script's stats (fanny pack 1 / 85) while its
-    tooltip counted the old upgrades, and the ten-minute check had already passed that player. The
+    tooltip counted the old upgrades, and the join check had already passed that player. The
     new item's own stats become the base and the upgrades are applied before complete() sends it
     (the item bytes carry both values). Vanilla's six fanny packs are the only containers with a
     ClothingItemExtra in 42.21; modded ones go the same way.
@@ -156,7 +157,7 @@ Events.OnInitGlobalModData.Add(onInitGlobalModData)
 -- Stats follow the settings
 ---------------------------------------------------------------------------------------------------
 
-local checkedPlayers = {} -- player key -> stats signature their bags were checked against
+local checkedPlayers = {} -- player key -> true once their bags were checked this run
 
 local function refreshBagsIn(container, player)
     local items = container:getItems()
@@ -171,31 +172,28 @@ local function refreshBagsIn(container, player)
     return changed
 end
 
-local function checkPlayer(player, key, signature)
-    if not player or checkedPlayers[key] == signature then return end
-    checkedPlayers[key] = signature
+local function checkPlayer(player, key)
+    if not player or checkedPlayers[key] then return end
+    checkedPlayers[key] = true
     local changed = refreshBagsIn(player:getInventory(), player)
     if changed > 0 then
         print("[TienBagUpgrades] re-applied " .. changed .. " bag(s) of " .. key)
     end
 end
 
-local function everyTenMinutes()
-    local signature = TBU.statsSignature()
+-- A server has no event for a player joining, so each client asks once it is in the world
+-- (single player too: sendClientCommand reaches this handler there, without the reply).
+local function onClientCommand(module, command, player, args)
+    if module ~= TBU.MODULE or command ~= TBU.CMD_CHECK_BAGS or not player then return end
     if isServer() then
-        local players = getOnlinePlayers()
-        for i = 0, players:size() - 1 do
-            local player = players:get(i)
-            checkPlayer(player, player:getUsername(), signature)
-        end
+        checkPlayer(player, player:getUsername())
+        sendServerCommand(player, TBU.MODULE, TBU.CMD_BAGS_CHECKED, { username = player:getUsername() })
     else
-        for i = 0, getNumActivePlayers() - 1 do
-            checkPlayer(getSpecificPlayer(i), "local" .. i, signature)
-        end
+        checkPlayer(player, "local" .. player:getPlayerNum())
     end
 end
 
-Events.EveryTenMinutes.Add(everyTenMinutes)
+Events.OnClientCommand.Add(onClientCommand)
 
 ---------------------------------------------------------------------------------------------------
 -- Front / back swaps keep the upgrades' stats

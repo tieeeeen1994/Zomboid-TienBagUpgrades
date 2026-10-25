@@ -57,8 +57,10 @@ folder; its Hide & Tarp Fanny Packs extension (3801558401) is folded in. Engine 
 - `server/.../TienBagUpgrades_Server.lua`: loot at `OnPreDistributionMerge`; `IsoWorld.init` fires the
   merge events **before** `SandboxOptions.load` and then `ItemPickerJava.Parse` with no event between, so
   `OnInitGlobalModData` rewrites the entries and calls `IsoWorld.parseDistributions()` (Parse +
-  InitSandboxLootSettings) only when a loot multiplier differs. `EveryTenMinutes` re-applies the bags
-  each player carries once per stats-settings signature (and once per player after a restart).
+  InitSandboxLootSettings) only when a loot multiplier differs. No timer polls the settings (a change
+  reaches carried bags after a restart): each client sends `checkBags` once it has joined (repeated every
+  3 s until `bagsChecked`, at most 10 times; single player sends it once, no answer), and the server
+  re-applies the bags that player carries, once per player per run.
   It also wraps `ISClothingExtraAction.createItemNew` (fanny pack Wear in front / at back = a new item of the
   `ClothingItemExtra` type, modData copied, capacity and WR not): the new item's script stats become the base and
   `TBU.apply` runs before `complete` sends it. Before that fix a swapped fanny pack showed 4/4 upgrades at 1 / 85
